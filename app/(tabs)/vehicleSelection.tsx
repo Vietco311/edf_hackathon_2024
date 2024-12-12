@@ -11,7 +11,10 @@ export default function VehicleSelection() {
   const handleTextSearch = () => {
     if (licensePlate) {
       // Naviguer vers VehicleDetails avec la plaque d'immatriculation
-      router.push('/(tabs)/vehicleDetails');
+      router.push({
+        pathname: '/(tabs)/vehicleDetails',
+        params: { licensePlate },
+      });
     } else {
       Alert.alert('Veuillez saisir une plaque d\'immatriculation');
     }
