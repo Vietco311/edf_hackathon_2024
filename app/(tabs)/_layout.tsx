@@ -42,11 +42,18 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+<<<<<<< HEAD
         name="reservation"
         options={{
           title: 'Reservation',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
           
+=======
+        name="vehicleSelection"
+        options={{
+          title: 'Selection',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+>>>>>>> master
         }}
       />
     </Tabs>

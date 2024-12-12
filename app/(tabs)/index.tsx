@@ -1,23 +1,36 @@
-import { Image, StyleSheet } from 'react-native';
-
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native'; 
+import React from 'react';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import {HelloWave} from '@/components/HelloWave';
+import { useNavigation, useRouter } from 'expo-router';
 
 export default function HomeScreen() {
+    const navigation = useNavigation();
+   
+  const router = useRouter();
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#FFF', dark: '#E9F1F9' }}
+      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }} 
       headerImage={
         <Image
-          source={require('@/assets/images/edf-logo-2005.webp')}
-          style={styles.reactLogo}
+          source={require('@/assets/images/logo-edf.png')} 
+          style={styles.edfLogo} 
+          resizeMode="contain"
         />
       }>
       <ThemedView style={styles.titleContainer}>
+        <ThemedText type="title" style={styles.title}>Gestion des véhicules EDF</ThemedText>
       </ThemedView>
-      <ThemedText>Réservez un véhicule de notre parc industriel facilement.</ThemedText>
+
+      <View style={styles.buttonContainer}>
+      <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('vehicleSelection')}>
+          <Text style={styles.buttonText}>Selectionner un Véhicule</Text>
+        </TouchableOpacity>
+      </View>
     </ParallaxScrollView>
   );
 }
@@ -31,8 +44,36 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    gap: 8, 
+  },
+  title: {
+    fontSize: 30, 
+    fontWeight: 'bold', 
+    textAlign: 'center', 
+  },
+  edfLogo: {
+    height: 250, 
+    width: 350, 
+    bottom: 0, 
+    left: 0, 
+    position: 'absolute', 
+  },
+  buttonContainer: {
+    marginTop: 20, 
+    alignItems: 'center', 
+  },
+  button: {
+    backgroundColor: '#A1CEDC', 
+    paddingVertical: 12, 
+    paddingHorizontal: 20, 
+    borderRadius: 25, 
+    alignItems: 'center', 
+  },
+  buttonText: {
+    color: '#FFFFFF', 
+    fontSize: 16, 
+    fontWeight: 'bold', 
   },
 });
