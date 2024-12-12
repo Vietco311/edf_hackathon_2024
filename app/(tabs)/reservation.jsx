@@ -14,7 +14,7 @@ export default function ReservationScreen() {
     useEffect(() => {
         const fetchVehicleById = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/vehicule/${route.params.id}`);
+                const response = await axios.get(`https://cb31-37-166-175-225.ngrok-free.app/vehicule/${route.params.id}`);
                 try {
                     // If response.data is already an object, use it directly
                     const vehicleData = typeof response.data === 'string'
@@ -35,7 +35,7 @@ export default function ReservationScreen() {
         };
         const fetchCities = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/destinations_possibles');
+                const response = await axios.get('https://cb31-37-166-175-225.ngrok-free.app/destinations_possibles');
                 console.log(response.data);
                 setCities(response.data)
             }
