@@ -10,7 +10,7 @@ app = flask.Flask(__name__)  # Changed from "" to __name__
 CORS(app)
 
 db = pd.ExcelFile("BDD_Vehicules.xlsx")
-
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 @app.route("/database_voitures")
 def database_voitures():
@@ -83,57 +83,40 @@ def append_data():
 @app.route("/upload_file", methods=['POST'])
 def upload_file():
 
-    patern = re.compile(r'[A-Z]{2}(-|\s)\d{3}(-|\s)[A-Z]{2}')
-
-    print(request.files.keys())
-    file = request.files['file[assets][0][file]']
-    reader = easyocr.Reader(['fr'])
-    print(file)
-
-    result = reader.readtext(file.stream.read())
+    try:
+        patern = re.compile(r'[A-Z]{2}(-|\s)\d{3}(-|\s)[A-Z]{2}')
+        file = request.files['file[assets][0][file]']
+        
+        # Read file in chunks to handle large files
+        reader = easyocr.Reader(['fr'])
+        chunk_size = 8192
+        file_content = b''
+        
+        for chunk in iter(lambda: file.stream.read(chunk_size), b''):
+            file_content += chunk
+        
+        # Print file size in bytes
+        print(f"File size: {len(file_content)} bytes")
+            
+        result = reader.readtext(file_content)
     
 
-    for (bbox, text, prob) in result:
-        (top_left, top_right, bottom_right, bottom_left) = bbox
-        print(text)
+        for (bbox, text, prob) in result:
+            (top_left, top_right, bottom_right, bottom_left) = bbox
+            print(text)
 
-        match_patrn = patern.search(text)
-        if match_patrn:
-            plate = match_patrn.group()
-            plate = plate.replace(' ', '').replace('-', '')
-            response = jsonify({'message': 'File uploaded successfully', 'text': plate})
-            response.headers.add('Access-Control-Allow-Origin', '*')
-            return response
+            match_patrn = patern.search(text)
+            if match_patrn:
+                plate = match_patrn.group()
+                plate = plate.replace(' ', '').replace('-', '')
+                response = jsonify({'message': 'File uploaded successfully', 'text': plate})
+                response.headers.add('Access-Control-Allow-Origin', '*')
+                return response
 
-    return jsonify({'message': 'Plate unreadable'}), 400
-
-
-@app.route("/upload_file", methods=['POST'])
-def upload_file():
-
-    patern = re.compile(r'[A-Z]{2}(-|\s)\d{3}(-|\s)[A-Z]{2}')
-
-    print(request.files.keys())
-    file = request.files['file[assets][0][file]']
-    reader = easyocr.Reader(['fr'])
-    print(file)
-
-    result = reader.readtext(file.stream.read())
-    
-
-    for (bbox, text, prob) in result:
-        (top_left, top_right, bottom_right, bottom_left) = bbox
-        print(text)
-
-        match_patrn = patern.search(text)
-        if match_patrn:
-            plate = match_patrn.group()
-            plate = plate.replace(' ', '').replace('-', '')
-            response = jsonify({'message': 'File uploaded successfully', 'text': plate})
-            response.headers.add('Access-Control-Allow-Origin', '*')
-            return response
-
-    return jsonify({'message': 'Plate unreadable'}), 400
+        return jsonify({'message': 'Plate unreadable'}), 400
+    except Exception as e:
+        print(f"Error processing file: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 
     # response = jsonify({'message': 'Data appended successfully'})

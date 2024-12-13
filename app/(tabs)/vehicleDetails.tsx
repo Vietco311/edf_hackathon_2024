@@ -11,7 +11,7 @@ export default function VehicleDetails() {
 
   const fetchVehicleDetails = async () => {
     try{
-      const response = await axios.get(`https://20e7-78-242-95-9.ngrok-free.app/vehicule/${route.params.vehicleId}`);
+      const response = await axios.get(`https://8fcd-78-242-95-9.ngrok-free.app/vehicule/${route.params.vehicleId}`);
       console.log(response.data);
       setLicensePlate(response.data);
     } catch (error) {
