@@ -3,15 +3,14 @@ import React from 'react';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import {HelloWave} from '@/components/HelloWave';
-import { useNavigation} from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 
 export default function HomeScreen() {
-    const navigation = useNavigation();
-   
+  const navigation = useNavigation();
+
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#FFFFFF', dark: '#FFFFFF' }} 
+      headerBackgroundColor={{ light: '#FFFFF', dark: '#1D3D47' }} 
       headerImage={
         <Image
           source={require('@/assets/images/logo-edf.png')} 
