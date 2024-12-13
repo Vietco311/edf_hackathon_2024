@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 30,
+    color: '#005BAC'
   },
   optionContainer: {
     marginBottom: 30,
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   button: {
-    backgroundColor: '#A1CEDC',
+    backgroundColor: '#FF6900',
     paddingVertical: 15,
     borderRadius: 25,
     alignItems: 'center',

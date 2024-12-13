@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginBottom: 20,
     textAlign: 'center',
+    color: '#005BAC'
   },
   imageVehicule: {
     width: 350,
