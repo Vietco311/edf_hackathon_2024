@@ -23,6 +23,7 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      "expo-camera",
       "expo-router",
       [
         "expo-splash-screen",
