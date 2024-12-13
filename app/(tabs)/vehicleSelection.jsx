@@ -28,7 +28,7 @@ export default function VehicleSelection() {
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const response = await axios.get('https://65b8-2a01-cb1e-13-bac7-a10e-221d-12f9-5a86.ngrok-free.app/database_voitures');
+        const response = await axios.get('http://172.20.10.167/database_voitures');
         setVehicles(response.data)
       }
       catch (error) {
@@ -66,10 +66,10 @@ export default function VehicleSelection() {
     animateContainer(showDropdown ? 1 : 0);
   }, [showDropdown]);
 
-  const handleToDetails = (vehicleId) => {
+  const handleToDetails = (vehicleImmat) => {
     if (licensePlate) {
       // Naviguer vers VehicleDetails avec la plaque d'immatriculation
-      navigation.navigate('vehicleDetails', { vehicleId });
+      navigation.navigate('vehicleDetails', { vehicleImmat });
     } else {
       Alert.alert('Veuillez saisir une plaque d\'immatriculation');
     }
@@ -107,7 +107,7 @@ export default function VehicleSelection() {
         }
         
         try {
-          const reponse = await axios.post('https://20e7-78-242-95-9.ngrok-free.app/upload_file', {
+          const reponse = await axios.post('http://172.20.10.167/upload_file', {
             file: result
           }, {
             headers: {
@@ -146,9 +146,9 @@ export default function VehicleSelection() {
           <View style={styles.dropdown}>
             {searchResults && searchResults.map((vehicle) => (
               <TouchableOpacity
-                key={vehicle.id_vehicule}
+                key={vehicle.immat}
                 style={styles.dropdownItem}
-                onPress={() => handleToDetails(vehicle.id_vehicule)}
+                onPress={() => handleToDetails(vehicle.immat)}
               >
                 <Text style={styles.dropdownText}>{vehicle.immat}</Text>
               </TouchableOpacity>
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
   },
   title: {
@@ -177,14 +177,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 50,
+    color: '#0033A0', // EDF blue
   },
   texte: {
     fontSize: 15,
     paddingBottom: 10,
+    color: '#0033A0', // EDF blue
   },
   input: {
     height: 40,
-    borderColor: '#ccc',
+    borderColor: '#0033A0', // EDF blue
     borderWidth: 1,
     marginBottom: 20,
     paddingLeft: 10,
@@ -193,20 +195,35 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 20,
     flexDirection: 'row',
-    justifyContent: 'space-between', // Espace entre les boutons
+    justifyContent: 'space-between', // Space between buttons
   },
   button: {
     flex: 1,
-    backgroundColor: '#A1CEDC',
+    backgroundColor: '#FF6900', // EDF orange
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 25,
     alignItems: 'center',
-    marginHorizontal: 5, // Espacement horizontal entre les boutons
+    marginHorizontal: 5, // Horizontal spacing between buttons
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  dropdown: {
+    backgroundColor: '#FFFFFF',
+    borderColor: '#0033A0', // EDF blue
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  dropdownItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#0033A0', // EDF blue
+  },
+  dropdownText: {
+    color: '#0033A0', // EDF blue
   },
 });

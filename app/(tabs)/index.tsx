@@ -3,16 +3,14 @@ import React from 'react';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import {HelloWave} from '@/components/HelloWave';
 import { useNavigation, useRouter } from 'expo-router';
 
 export default function HomeScreen() {
-    const navigation = useNavigation();
-   
-  const router = useRouter();
+  const navigation = useNavigation();
+
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }} 
+      headerBackgroundColor={{ light: '#FFFFF', dark: '#1D3D47' }} 
       headerImage={
         <Image
           source={require('@/assets/images/logo-edf.png')} 
@@ -25,10 +23,10 @@ export default function HomeScreen() {
       </ThemedView>
 
       <View style={styles.buttonContainer}>
-      <TouchableOpacity
+        <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('vehicleSelection')}>
-          <Text style={styles.buttonText}>Selectionner un Véhicule</Text>
+          <Text style={styles.buttonText}>Sélectionner un Véhicule</Text>
         </TouchableOpacity>
       </View>
     </ParallaxScrollView>
@@ -46,34 +44,42 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row', 
     alignItems: 'center', 
-    gap: 8, 
+    justifyContent: 'center', 
+    marginVertical: 20,
   },
   title: {
-    fontSize: 30, 
+    fontSize: 32, 
     fontWeight: 'bold', 
     textAlign: 'center', 
+    color: '#005BAC', // EDF blue color
   },
   edfLogo: {
-    height: 250, 
-    width: 350, 
-    bottom: 0, 
-    left: 0, 
+    height: 80, 
+    width: 120, 
+    top: 30, 
+    left: 20, 
     position: 'absolute', 
+
   },
   buttonContainer: {
-    marginTop: 20, 
+    marginTop: 30, 
     alignItems: 'center', 
   },
   button: {
-    backgroundColor: '#A1CEDC', 
-    paddingVertical: 12, 
-    paddingHorizontal: 20, 
-    borderRadius: 25, 
+    backgroundColor: '#FF6900', // EDF orange color
+    paddingVertical: 15, 
+    paddingHorizontal: 30, 
+    borderRadius: 30, 
     alignItems: 'center', 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
   },
   buttonText: {
     color: '#FFFFFF', 
-    fontSize: 16, 
+    fontSize: 18, 
     fontWeight: 'bold', 
   },
 });
