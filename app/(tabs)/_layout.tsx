@@ -34,7 +34,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
-<Tabs.Screen
+      <Tabs.Screen
         name="caracteristique"
         options={{
           title: 'Caracteristique',
@@ -49,13 +49,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="reservation"
-        options={{
-          title: 'Reservation',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="calendar" color={color} />,
-        }}
-      />
-      <Tabs.Screen
         name="vehicleDetails"
         options={{
           title: 'Details',
@@ -67,6 +60,20 @@ export default function TabLayout() {
         options={{
           title: 'Defauts',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="car.fill" color={color} />,
+        }}
+        ></Tabs.Screen>
+        <Tabs.Screen
+        name="releve"
+        options={{
+          title: 'Relevé',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="doc.text.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="reservation"
+        options={{
+          title: 'Reservation',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="calendar" color={color} />,
         }}
       />
     </Tabs>

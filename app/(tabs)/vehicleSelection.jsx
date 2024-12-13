@@ -28,7 +28,7 @@ export default function VehicleSelection() {
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const response = await axios.get('https://8fcd-78-242-95-9.ngrok-free.app/database_voitures');
+        const response = await axios.get('https://a57c-78-242-87-107.ngrok-free.app/database_voitures');
         setVehicles(response.data)
       }
       catch (error) {
@@ -107,7 +107,7 @@ export default function VehicleSelection() {
         }
         
         try {
-          const reponse = await axios.post('https://8fcd-78-242-95-9.ngrok-free.app/upload_file', {
+          const reponse = await axios.post('https://a57c-78-242-87-107.ngrok-free.app/upload_file', {
             file: result
           }, {
             headers: {
