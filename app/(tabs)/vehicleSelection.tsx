@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Text, Alert, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker'; // Pour prendre une photo avec Expo
 import { useRouter } from 'expo-router';
+import axios from 'axios';
 
 export default function VehicleSelection() {
   const router = useRouter();
@@ -18,13 +19,36 @@ export default function VehicleSelection() {
   };
 
   const handlePhotoSearch = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      base64: true,
-    });
 
-    if (!result.canceled) {
-      Alert.alert('Photo prise', 'Plaque capturée, traitée pour la reconnaissance');
+    try {
+      let result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        base64: true,
+      });
+      console.log(result);
+
+      if (!result.canceled) {
+        Alert.alert('Photo prise', 'Plaque capturée, traitée pour la reconnaissance');
+      }
+
+      const formData = new FormData();
+      try {
+        const reponse = await axios.post(' https://65b8-2a01-cb1e-13-bac7-a10e-221d-12f9-5a86.ngrok-free.app/upload_file', {
+          file: result
+        }, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        });
+        console.log(reponse);
+      }
+      catch (e) {
+        console.log(e);
+      }
+
+    }
+    catch (e) {
+      console.log(e);
     }
   };
 
