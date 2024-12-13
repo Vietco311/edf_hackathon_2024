@@ -28,7 +28,7 @@ export default function VehicleSelection() {
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const response = await axios.get('https://cb31-37-166-175-225.ngrok-free.app/database_voitures');
+        const response = await axios.get('https://65b8-2a01-cb1e-13-bac7-a10e-221d-12f9-5a86.ngrok-free.app/database_voitures');
         setVehicles(response.data)
       }
       catch (error) {
