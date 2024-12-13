@@ -3,6 +3,8 @@ import pandas as pd
 import flask
 from flask import request, jsonify
 from append_to_table import append_to_table
+import easyocr
+import re
 
 app = flask.Flask(__name__)  # Changed from "" to __name__
 CORS(app)
@@ -43,6 +45,15 @@ def get_vehicule_by_id(id):
     # Convert to dict for proper JSON serialization
     return vehicule.iloc[0].to_json()
 
+@app.route("/vehicule/immat/<string:immat>")
+def get_vehicule_by_immat(immat):
+    print(f"Received request for vehicle immat: {immat}")  # Debug log
+    df = pd.read_excel(db, 'database_Voitures')
+    vehicule = df[df['immat'] == immat.upper()]
+    if vehicule.empty:
+        return {"error": "Véhicule non trouvé"}, 404
+    return vehicule.iloc[0].to_json()
+
 @app.route("/append_to_table", methods=['POST'])
 def append_data():
     try:
@@ -61,6 +72,33 @@ def append_data():
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route("/upload_file", methods=['POST'])
+def upload_file():
+
+    patern = re.compile(r'[A-Z]{2}(-|\s)\d{3}(-|\s)[A-Z]{2}')
+
+    print(request.files.keys())
+    file = request.files['file[assets][0][file]']
+    reader = easyocr.Reader(['fr'])
+    print(file)
+
+    result = reader.readtext(file.stream.read())
+    
+
+    for (bbox, text, prob) in result:
+        (top_left, top_right, bottom_right, bottom_left) = bbox
+        print(text)
+
+        match_patrn = patern.search(text)
+        if match_patrn:
+            plate = match_patrn.group()
+            plate = plate.replace(' ', '').replace('-', '')
+            response = jsonify({'message': 'File uploaded successfully', 'text': plate})
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            return response
+
+    return jsonify({'message': 'Plate unreadable'}), 400
 
 
 if __name__ == '__main__':

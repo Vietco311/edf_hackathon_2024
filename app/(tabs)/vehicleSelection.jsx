@@ -28,7 +28,7 @@ export default function VehicleSelection() {
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const response = await axios.get('https://cb31-37-166-175-225.ngrok-free.app/database_voitures');
+        const response = await axios.get('https://20e7-78-242-95-9.ngrok-free.app/database_voitures');
         setVehicles(response.data)
       }
       catch (error) {
@@ -88,14 +88,45 @@ export default function VehicleSelection() {
   };
 
   const handlePhotoSearch = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      base64: true,
-    });
-
-    if (!result.canceled) {
-      Alert.alert('Photo prise', 'Plaque capturée, traitée pour la reconnaissance');
+    const permissionStatus = await ImagePicker.requestCameraPermissionsAsync();
+    console.log(permissionStatus);
+    if (!permissionStatus.granted) {
+      Alert.alert('Permission refusée', 'Vous devez autoriser l\'accès à la caméra pour continuer');
+      return;
     }
+    else {
+      try {
+        let result = await ImagePicker.launchCameraAsync({
+          allowsEditing: true,
+          base64: true,
+        });
+        console.log(result);
+  
+        if (!result.canceled) {
+          Alert.alert('Photo prise', 'Plaque capturée, traitée pour la reconnaissance');
+        }
+        
+        try {
+          const reponse = await axios.post('https://20e7-78-242-95-9.ngrok-free.app/upload_file', {
+            file: result
+          }, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          });
+          setLicensePlate(reponse.data);
+          console.log(reponse);
+        }
+        catch (e) {
+          console.log(e);
+        }
+  
+      }
+      catch (e) {
+        console.log(e);
+      }
+    }
+    
   };
 
   return (

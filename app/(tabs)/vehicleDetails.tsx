@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import {useRoute } from '@react-navigation/native';
+import axios from 'axios';
 
 export default function VehicleDetails() {
-  const { licensePlate } = useLocalSearchParams(); // Récupérer le paramètre 'licensePlate'
+
+  const route = useRoute();
+
+  const [licensePlate, setLicensePlate] = useState(); // Récupérer le paramètre 'licensePlate'
+
+  const fetchVehicleDetails = async () => {
+    try{
+      const response = await axios.get(`https://20e7-78-242-95-9.ngrok-free.app/vehicule/${route.params.vehicleId}`);
+      console.log(response.data);
+      setLicensePlate(response.data);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchVehicleDetails();
+  }, []);
+    
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -18,28 +37,28 @@ export default function VehicleDetails() {
             />
             <View style={styles.detailsContainer}>
             <Text style={styles.info}>
-              <Text style={styles.label}>Plaque d'immatriculation :</Text> {licensePlate}
+              <Text style={styles.label}>Plaque d'immatriculation :</Text> {licensePlate.immat}
             </Text>
             <Text style={styles.info}>
-              <Text style={styles.label}>Modèle :</Text> Peugeuot E-208
+              <Text style={styles.label}>Modèle :</Text> {licensePlate.modele}
             </Text>
             <Text style={styles.info}>
-              <Text style={styles.label}>Propulsion :</Text> Electrique
+              <Text style={styles.label}>Propulsion :</Text> {licensePlate.propulsion}
             </Text>
             <Text style={styles.info}>
-              <Text style={styles.label}>Nombre de places :</Text> 5
+              <Text style={styles.label}>Nombre de places :</Text> {licensePlate.nb_places}
             </Text>
             <Text style={styles.info}>
-              <Text style={styles.label}>Autonomie théorique :</Text> 640 Km
+              <Text style={styles.label}>Autonomie théorique :</Text> {licensePlate.autonomie_theorique} Km
             </Text>
             <Text style={styles.info}>
-              <Text style={styles.label}>Taille batterie :</Text> 51 Ah
+              <Text style={styles.label}>Taille batterie :</Text> {licensePlate.Taille_batterie} Ah
             </Text>
             <Text style={styles.info}>
-              <Text style={styles.label}>Consommation kwh 100km :</Text> 18 Kwh
+              <Text style={styles.label}>Consommation kwh 100km :</Text> {licensePlate.Conso_kwh_100km} Kwh
             </Text>
             <Text style={styles.info}>
-              <Text style={styles.label}>Consommation lt 100km :</Text> 7 Litre(s)
+              <Text style={styles.label}>Consommation lt 100km :</Text> {licensePlate.Conso_lt_100km} Litre(s)
             </Text>
             <Text style={styles.info}>
               <Text style={styles.label}>Défauts signalés :</Text> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ligula dui, mollis a viverra accumsan, mollis eget ante
